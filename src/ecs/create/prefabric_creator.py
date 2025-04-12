@@ -3,6 +3,7 @@ import esper
 import pygame
 
 from src.ecs.components.c_animation import CAnimation
+from src.ecs.components.c_hunter_state import CHunterState
 from src.ecs.components.c_input_command import CInputCommand
 from src.ecs.components.c_player_state import CPlayerState
 from src.ecs.components.c_surface import CSurface
@@ -46,6 +47,7 @@ def create_hunter_enemy(world: esper.World, position: pygame.Vector2, enemy_info
     world.add_component(enemy_entity, CTagEnemy())
     world.add_component(enemy_entity, CTagEnemyHunter())
     world.add_component(enemy_entity, CAnimation(enemy_info["animations"]))
+    world.add_component(enemy_entity, CHunterState())
     return enemy_entity
 
 

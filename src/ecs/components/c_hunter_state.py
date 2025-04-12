@@ -1,10 +1,10 @@
 from enum import Enum
 
 
-class CPlayerState:
+class CHunterState:
     def __init__(self) -> None:
-        self.state = PlayerState.IDLE
+        self.state = HunterState.IDLE
     
-class PlayerState(Enum):
+class HunterState(Enum):
     IDLE = 0
     MOVE = 1
