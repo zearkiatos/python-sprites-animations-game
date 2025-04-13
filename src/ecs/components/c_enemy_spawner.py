@@ -16,7 +16,3 @@ class SpawnEventData:
         self.position: pygame.Vector2 = pygame.Vector2(
             event_data["position"]["x"], event_data["position"]["y"])
         self.triggered: bool = False
-        # if self.enemy_type == "Hunter":
-        #     self.chasing = False
-        #     self.initial_position = pygame.Vector2(
-        #         event_data["position"]["x"], event_data["position"]["y"])

@@ -3,6 +3,7 @@ import esper
 import pygame
 
 from src.ecs.components.c_animation import CAnimation
+from src.ecs.components.c_explosion_state import CExplosionState
 from src.ecs.components.c_hunter import CHunter
 from src.ecs.components.c_hunter_state import CHunterState
 from src.ecs.components.c_input_command import CInputCommand
@@ -14,6 +15,7 @@ from src.ecs.components.c_enemy_spawner import CEnemySpawner
 from src.ecs.components.tags.c_tag_bullet import CTagBullet
 from src.ecs.components.tags.c_tag_enemy import CTagEnemy
 from src.ecs.components.tags.c_tag_enemy_asteroid import CTagEnemyAsteroid
+from src.ecs.components.tags.c_tag_explosion import CTagExplosion
 from src.ecs.components.tags.c_tag_player import CTagPlayer
 from src.ecs.components.tags.c_tag_enemy_hunter import CTagEnemyHunter
 
@@ -52,6 +54,18 @@ def create_hunter_enemy(world: esper.World, position: pygame.Vector2, enemy_info
     world.add_component(enemy_entity, CHunterState())
     world.add_component(enemy_entity, CHunter(initial_position=position.copy()))
     return enemy_entity
+
+def create_explosion(world: esper.World, position: pygame.Vector2, explosion_config: dict):
+    explosion_sprite = pygame.image.load(explosion_config["image"]).convert_alpha()
+    velocity = pygame.Vector2(0, 0)
+    size = explosion_sprite.get_size()
+    size = (size[0] / explosion_config["animations"]["number_frames"], size[1])
+    position = pygame.Vector2(position.x - (size[0]/2), position.y - (size[1]/2))
+    explosion_entity = create_sprite(world, position, velocity, explosion_sprite)
+    world.add_component(explosion_entity, CTagExplosion())
+    world.add_component(explosion_entity, CAnimation(explosion_config["animations"]))
+    world.add_component(explosion_entity, CExplosionState())
+    return explosion_entity
 
 
 def create_enemy_square(world: esper.World, position: pygame.Vector2, enemy_info: dict):

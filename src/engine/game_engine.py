@@ -8,7 +8,9 @@ from src.ecs.systems.s_animation import system_animation
 from src.ecs.systems.s_bullet_limit import system_bullet_limit
 from src.ecs.systems.s_collision_bullet_enemy import system_collision_bullet_enemy
 from src.ecs.systems.s_collision_player_enemy import system_collision_player_enemy
+from src.ecs.systems.s_explode import system_explode
 from src.ecs.systems.s_hunter_chase import system_hunter_chase
+from src.ecs.systems.s_hunter_limit import system_hunter_limit
 from src.ecs.systems.s_hunter_state import system_hunter_state
 from src.ecs.systems.s_input_player import system_input_player
 from src.ecs.systems.s_movement import system_movement
@@ -73,12 +75,14 @@ class GameEngine:
         system_hunter_state(self.ecs_world)
         system_screen_bounce(self.ecs_world, self.screen)
         system_enemy_spawner(self.ecs_world, self.enemies_config, self.delta_time)
-        system_collision_player_enemy(self.ecs_world, self._player_entity, self.levels_config)
-        system_collision_bullet_enemy(self.ecs_world)
+        system_collision_player_enemy(self.ecs_world, self._player_entity, self.levels_config, self.explosion_config)
+        system_collision_bullet_enemy(self.ecs_world, self.explosion_config)
         self.block_bullet = system_bullet_limit(self.ecs_world, self.levels_config["player_spawn"], self.screen)
         system_player_limit(self.ecs_world, self.screen)
+        system_hunter_limit(self.ecs_world, self.screen)
         system_animation(self.ecs_world, self.delta_time)
         system_hunter_chase(self.ecs_world, self.enemies_config, self._player_entity)
+        system_explode(self.ecs_world)
         self.ecs_world._clear_dead_entities()
 
     def _draw(self):
@@ -96,6 +100,7 @@ class GameEngine:
         self.levels_config = read_json_file("assets/cfg/level_01.json")
         self.player_config = read_json_file("assets/cfg/player.json")
         self.bullet_config = read_json_file("assets/cfg/bullet.json")
+        self.explosion_config = read_json_file("assets/cfg/explosion.json")
 
     def _do_action(self, c_input: CInputCommand, event: pygame.event.Event):
         if c_input.name == "PLAYER_LEFT":
