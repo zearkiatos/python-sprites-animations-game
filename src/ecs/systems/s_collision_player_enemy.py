@@ -15,5 +15,5 @@ def system_collision_player_enemy(world:esper.World, player_entity:int, levels_c
         enemy_rectangle = CSurface.get_area_relative(c_surface.area, c_transform.position)
         if enemy_rectangle.colliderect(player_rectangle):
             world.delete_entity(enemy_entity)
-            player_transform.position.x = initial_x - player_surface.surface.get_width() / 2
-            player_transform.position.y = initial_y - player_surface.surface.get_height() / 2
+            player_transform.position.x = initial_x - player_surface.area.width / 2
+            player_transform.position.y = initial_y - player_surface.area.height / 2

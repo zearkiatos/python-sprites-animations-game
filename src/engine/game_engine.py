@@ -8,6 +8,7 @@ from src.ecs.systems.s_animation import system_animation
 from src.ecs.systems.s_bullet_limit import system_bullet_limit
 from src.ecs.systems.s_collision_bullet_enemy import system_collision_bullet_enemy
 from src.ecs.systems.s_collision_player_enemy import system_collision_player_enemy
+from src.ecs.systems.s_hunter_chase import system_hunter_chase
 from src.ecs.systems.s_hunter_state import system_hunter_state
 from src.ecs.systems.s_input_player import system_input_player
 from src.ecs.systems.s_movement import system_movement
@@ -77,6 +78,7 @@ class GameEngine:
         self.block_bullet = system_bullet_limit(self.ecs_world, self.levels_config["player_spawn"], self.screen)
         system_player_limit(self.ecs_world, self.screen)
         system_animation(self.ecs_world, self.delta_time)
+        system_hunter_chase(self.ecs_world, self.enemies_config, self._player_entity)
         self.ecs_world._clear_dead_entities()
 
     def _draw(self):
