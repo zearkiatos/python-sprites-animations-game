@@ -5,6 +5,7 @@ from src.ecs.components.c_transform import CTransform
 from src.ecs.components.tags.c_tag_bullet import CTagBullet
 from src.ecs.components.tags.c_tag_enemy import CTagEnemy
 from src.ecs.create.prefabric_creator import create_explosion
+from src.utils.sounds import generate_space_explosion_beep
 
 def system_collision_bullet_enemy(world: esper.World, explosion_config:dict) -> None:
     enemy_components = world.get_components(CSurface, CTransform, CTagEnemy)
@@ -17,5 +18,7 @@ def system_collision_bullet_enemy(world: esper.World, explosion_config:dict) -> 
             if bullet_rectangle.colliderect(enemy_rectangle):
                 world.delete_entity(bullet_entity)
                 world.delete_entity(enemy_entity)
+                explosion = generate_space_explosion_beep
+                explosion().play()
                 create_explosion(world, c_enemy_transform.position, explosion_config)
                 break
