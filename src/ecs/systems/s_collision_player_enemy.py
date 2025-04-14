@@ -19,6 +19,6 @@ def system_collision_player_enemy(world:esper.World, player_entity:int, levels_c
             world.delete_entity(enemy_entity)
             explosion = generate_space_explosion_beep
             explosion().play()
-            create_explosion(world, c_transform.position, explosion_config)
+            create_explosion(world, c_transform.position.copy(), explosion_config)
             player_transform.position.x = initial_x - player_surface.area.width / 2
             player_transform.position.y = initial_y - player_surface.area.height / 2

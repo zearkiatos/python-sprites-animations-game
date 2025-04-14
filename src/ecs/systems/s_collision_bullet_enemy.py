@@ -20,5 +20,5 @@ def system_collision_bullet_enemy(world: esper.World, explosion_config:dict) -> 
                 world.delete_entity(enemy_entity)
                 explosion = generate_space_explosion_beep
                 explosion().play()
-                create_explosion(world, c_enemy_transform.position, explosion_config)
+                create_explosion(world, c_bullet_transform.position.copy(), explosion_config)
                 break
